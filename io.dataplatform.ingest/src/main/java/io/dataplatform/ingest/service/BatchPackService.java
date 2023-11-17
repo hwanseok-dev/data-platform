@@ -28,6 +28,7 @@ public class BatchPackService {
      * 4. BatchIngestMeta 추가
      */
     public void process(Integer agentId, String agentName, String resourceType, MultipartFile file){
+        // split line by line
         String fileName = file.getName();
         DecompressionStrategy decompressor = chooseDecompressor(file.getName());
         Function<String, BatchPack> generator = chooseBatchPackGenerator(resourceType, agentId, agentName, fileName);
@@ -36,11 +37,14 @@ public class BatchPackService {
              BufferedReader reader = decompressor.getBufferedReader(is)) {
             String line = reader.readLine();
             while (line != null) {
+                // convert line to pack
                 BatchPack pack = generator.apply(line);
+                // add to core
                 BatchPackCore.getInstance().add(pack);
                 count.increase();
                 line = reader.readLine();
             }
+            // add meta
             BatchIngestCountMeta.getInstance().add(agentId, agentName, resourceType, count.getValue());
         } catch (IOException e) {
             // 같은 배치 파일에 대해서는 에러가 한 번만 발생해도 전체 배치 파일의 처리를 중단한다
@@ -63,17 +67,21 @@ public class BatchPackService {
             case "CLOUD_FRONT":
             case "WAF":
                 return line -> {
-                    BatchPack batchPack = new BatchPack(DateUtil.now(), agentId, agentName);
+                    BatchPack batchPack = new BatchPack();
+                    batchPack.updateTime();
+                    batchPack.updateAgentInfo(agentId, agentName);
                     batchPack.setFileName(fileName);
-                    batchPack.setLine(line);
+                    batchPack.setDocument(line);
                     batchPack.putResourceType(uppercase);
                     return batchPack;
                 };
             default:
                 return line -> {
-                    BatchPack batchPack = new BatchPack(DateUtil.now(), agentId, agentName);
+                    BatchPack batchPack = new BatchPack();
+                    batchPack.updateTime();
+                    batchPack.updateAgentInfo(agentId, agentName);
                     batchPack.setFileName(fileName);
-                    batchPack.setLine(line);
+                    batchPack.setDocument(line);
                     batchPack.putResourceType("COMMON");
                     return batchPack;
                 };

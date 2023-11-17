@@ -3,7 +3,7 @@ package io.dataplatform.ingest.controller;
 import io.dataplatform.common.pack.StreamPack;
 import io.dataplatform.ingest.exception.BadAgentException;
 import io.dataplatform.ingest.service.BatchPackService;
-import io.dataplatform.ingest.service.StreamPackSerivce;
+import io.dataplatform.ingest.service.StreamPackService;
 import io.dataplatform.ingest.util.HttpHeaderUtil;
 import io.dataplatform.metadata.ingest.BatchIngestCountMeta;
 import io.dataplatform.metadata.ingest.StreamIngestCountMeta;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class IngestController {
 
-    private final StreamPackSerivce streamPackSerivce;
+    private final StreamPackService streamPackService;
 
     private final BatchPackService batchPackService;
 
@@ -37,7 +37,7 @@ public class IngestController {
             agentId = HttpHeaderUtil.getOrThrowAgentId(request);
             agentName = HttpHeaderUtil.getOrThrowAgentName(request);
             resourceType = HttpHeaderUtil.getOrThrowResourceType(request);
-            streamPackSerivce.process(agentId, agentName, resourceType, pack);
+            streamPackService.process(agentId, agentName, resourceType, pack);
         } catch (BadAgentException e) {
             log.error("agentId: {}, agentName: {}, resourceType: {}", agentId, agentName, resourceType);
             StreamIngestCountMeta.getInstance().addErrorCount(agentId, agentName, resourceType);

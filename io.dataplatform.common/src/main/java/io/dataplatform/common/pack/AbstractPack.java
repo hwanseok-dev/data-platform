@@ -1,5 +1,6 @@
 package io.dataplatform.common.pack;
 
+import io.dataplatform.common.util.DateUtil;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -18,27 +19,27 @@ import java.util.Map;
  */
 @Getter
 public abstract class AbstractPack {
-    private final Long time; // 데이터 수집 시간
-    private final Integer agentId; // 에이전트 식별자
-    private final String agentName; // 에이전트 이름
+    private Long time; // 데이터 수집 시간
+    private Integer agentId; // 에이전트 식별자
+    private String agentName; // 에이전트 이름
     private final Map<String, String> tags = new HashMap<>(); // 소스 시스템의 식별자
-    protected AbstractPack(Long time, Integer agentId) {
-        this.time = time;
-        this.agentId = agentId;
-        this.agentName = "undefined";
+
+    public void updateTime(){
+        this.time = DateUtil.now();
     }
 
-    protected AbstractPack(Long time, Integer agentId, String agentName) {
-        this.time = time;
+    public void updateAgentInfo(Integer agentId, String agentName){
         this.agentId = agentId;
         this.agentName = agentName;
     }
 
-    protected void putTag(String key, String value){
+    public void putTag(String key, String value){
         tags.put(key, value);
     }
 
-    protected String getTag(String key){
+    public String getTag(String key){
         return tags.getOrDefault(key, null);
     }
+
+
 }

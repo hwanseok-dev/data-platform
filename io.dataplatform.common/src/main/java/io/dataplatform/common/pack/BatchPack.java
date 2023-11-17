@@ -2,16 +2,7 @@ package io.dataplatform.common.pack;
 
 public class BatchPack extends AbstractPack {
     private String fileName;
-    private String line;
-
-    // 생성자
-    public BatchPack(Long time, Integer agentId) {
-        super(time, agentId);
-    }
-
-    public BatchPack(Long time, Integer agentId, String agentName) {
-        super(time, agentId, agentName);
-    }
+    private String document;
 
     // 비즈니스 메서드
     public void putResourceType(String resourceType){
@@ -23,7 +14,7 @@ public class BatchPack extends AbstractPack {
         this.fileName = fileName;
     }
 
-    public void setLine(String line) {
-        this.line = line;
+    public void setDocument(String document) {
+        this.document = document;
     }
 }
