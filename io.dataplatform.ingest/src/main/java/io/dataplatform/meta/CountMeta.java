@@ -1,4 +1,4 @@
-package io.dataplatform.metadata.ingest;
+package io.dataplatform.meta;
 
 public interface CountMeta {
 

@@ -1,7 +1,8 @@
-package io.dataplatform.process.core;
+package io.dataplatform.process.pre;
 
 import io.dataplatform.common.pack.BatchPack;
 import io.dataplatform.common.thread.SingletonProcess;
+import io.dataplatform.storage.BatchPackDB;
 
 public class BatchPackCore extends SingletonProcess<BatchPack> {
 
@@ -19,8 +20,8 @@ public class BatchPackCore extends SingletonProcess<BatchPack> {
     }
 
     @Override
-    protected void process(BatchPack batchPack) throws Exception {
-        // TODO
+    protected void process(BatchPack p) throws Exception {
+        BatchPackDB.getInstance().add(p);
     }
 
 

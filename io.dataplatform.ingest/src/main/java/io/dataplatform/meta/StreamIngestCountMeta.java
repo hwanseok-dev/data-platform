@@ -1,4 +1,4 @@
-package io.dataplatform.metadata.ingest;
+package io.dataplatform.meta;
 
 public class StreamIngestCountMeta implements CountMeta {
     private static StreamIngestCountMeta instance ;

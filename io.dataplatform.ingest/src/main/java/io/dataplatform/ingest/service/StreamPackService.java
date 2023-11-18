@@ -1,8 +1,8 @@
 package io.dataplatform.ingest.service;
 
 import io.dataplatform.common.pack.StreamPack;
-import io.dataplatform.metadata.ingest.StreamIngestCountMeta;
-import io.dataplatform.process.core.StreamPackCore;
+import io.dataplatform.meta.StreamIngestCountMeta;
+import io.dataplatform.process.pre.StreamPackCore;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
